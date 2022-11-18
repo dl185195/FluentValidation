@@ -418,9 +418,10 @@ public abstract class AbstractValidator<T> : IValidator<T>, IEnumerable<IValidat
 	/// Throws an exception if the instance being validated is null.
 	/// </summary>
 	/// <param name="instanceToValidate"></param>
-	protected virtual void EnsureInstanceNotNull(object instanceToValidate)
-	  // TODO: Parameter should be made generic in 12.0
-		=> instanceToValidate.Guard("Cannot pass null model to Validate.", nameof(instanceToValidate));
+	protected virtual void EnsureInstanceNotNull(T instanceToValidate) {
+		if (instanceToValidate is null)
+			throw new ArgumentNullException(nameof(instanceToValidate), "Cannot pass null model to Validate.");
+	}
 
 	/// <summary>
 	/// Determines if validation should occtur and provides a means to modify the context and ValidationResult prior to execution.
